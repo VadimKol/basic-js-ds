@@ -22,9 +22,27 @@ const { NotImplementedError } = require('../extensions/index.js');
  *   }
  * }
  */
-function removeKFromList(/* l, k */) {
-  throw new NotImplementedError('Not implemented');
+function removeKFromList(l, k) {
   // remove line with error and write your code here
+  //такое ощющение, что этот код сделан, чтобы проходить тесты :(
+  //вроде поправил!
+  //ну смысл в том, что я просто рекурсивно меняю ссылки на след. элементы, к пред. доступа все равно нет
+  //итеративно наверно было бы легче
+  if(l !== null) {
+    if(l.value === k) { //вначале, если
+      l = l.next;
+      l = removeKFromList(l, k);//тут поправил, чтобы все k-ашки в начале убрать, а не одну только, то есть присваивание l
+    } else {
+      if (l.next !== null) {
+        while(l.next.value === k) { //подряд
+          l.next = l.next.next;
+          if(l.next === null) break; //граничное условие
+        }
+      }
+      removeKFromList(l.next, k); //здесь не надо присваивать, я уже сплю:(
+    }
+  }
+  return l;
 }
 
 module.exports = {
